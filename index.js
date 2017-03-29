@@ -74,16 +74,3 @@ export default function getPath(name) {
 
     }
 }
-
-console.log("Dirs:");
-console.log(folders.getCacheDir());
-console.log(folders.getConfigHome());
-console.log(folders.getDataHome());
-console.log(folders.getDesktopFolder());
-console.log(folders.getDocumentsFolder());
-console.log(folders.getDownloadsFolder());
-console.log(folders.getPicturesFolder());
-console.log(folders.getVideosFolder());
-console.log(folders.getMusicFolder());
-console.log(folders.getSaveGamesFolder());
-console.log(folders.getHomeFolder());

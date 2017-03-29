@@ -1,8 +1,8 @@
 {
-  "name": "node-platform-folders",
+  "name": "platform-folders",
   "version": "0.1.0",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp rebuild"
@@ -12,5 +12,15 @@
   ],
   "author": "Jan Beckmann <king-jan1999@hotmail.de>",
   "license": "MIT",
-  "gypfile": true
+  "gypfile": true,
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kingjan1999/node-platforms-folder.git"
+  }
 }
