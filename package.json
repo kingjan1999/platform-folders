@@ -1,6 +1,6 @@
 {
   "name": "platform-folders",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "install": "node-gyp rebuild"
   },
   "keywords": [
-    "platform;folders;documents;downloads"
+    "platform,folders,documents,downloads,special folders,appdata,platform folders"
   ],
   "author": "Jan Beckmann <king-jan1999@hotmail.de>",
   "license": "MIT",
