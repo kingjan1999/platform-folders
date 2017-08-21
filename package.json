@@ -8,7 +8,13 @@
     "install": "node-gyp rebuild"
   },
   "keywords": [
-    "platform","folders","documents","downloads","special folders","appdata","platform folders"
+    "platform",
+    "folders",
+    "documents",
+    "downloads",
+    "special folders",
+    "appdata",
+    "platform folders"
   ],
   "author": "Jan Beckmann <king-jan1999@hotmail.de>",
   "license": "MIT",
