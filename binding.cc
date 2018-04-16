@@ -12,7 +12,8 @@ void getCache(const FunctionCallbackInfo <Value> &args) {
     try {
         std::string cacheDir = sago::getCacheDir();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, cacheDir.c_str()));
-    } catch (const std::runtime_error &re) {
+    }
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -27,7 +28,7 @@ void getConfig(const FunctionCallbackInfo <Value> &args) {
         std::string dir = sago::getConfigHome();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -42,7 +43,7 @@ void getData(const FunctionCallbackInfo <Value> &args) {
         std::string dir = sago::getDataHome();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -58,7 +59,7 @@ void getDesktop(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getDesktopFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -74,7 +75,7 @@ void getDocuments(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getDocumentsFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -91,7 +92,7 @@ void getDownloads(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getDownloadFolder1();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -108,7 +109,7 @@ void getMusic(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getMusicFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -125,7 +126,7 @@ void getPictures(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getPicturesFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -141,7 +142,7 @@ void getSaveGames(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getSaveGamesFolder1();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -157,7 +158,7 @@ void getVideos(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getVideoFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -173,7 +174,7 @@ void getHome(const FunctionCallbackInfo <Value> &args) {
         std::string dir = p.getHomeFolder();
         args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
     }
-    catch (const std::runtime_error &re) {
+    catch (const std::exception &re) {
         *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
     }
     catch (...) {
@@ -196,4 +197,5 @@ void init(Local <Object> exports) {
     NODE_SET_METHOD(exports, "getHomeFolder", getHome);
 }
 
-NODE_MODULE(binding, init);
+NODE_MODULE(binding, init
+);
