@@ -197,5 +197,4 @@ void init(Local <Object> exports) {
     NODE_SET_METHOD(exports, "getHomeFolder", getHome);
 }
 
-NODE_MODULE(binding, init
-);
+NODE_MODULE(binding, init);
