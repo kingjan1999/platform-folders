@@ -46,7 +46,7 @@ export function getSaveGamesFolder() {
 }
 
 export default function getPath(name) {
-    switch(name) {
+    switch (name) {
         case "home":
             return getHomeFolder();
         case "appData":

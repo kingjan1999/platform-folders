@@ -364,6 +364,10 @@ std::string PlatformFolders::getSaveGamesFolder1() const {
 #endif
 }
 
+std::string PlatformFolders::getHomeFolder() const {
+    return getHome();
+}
+
 
 
 }  //namespace sago
