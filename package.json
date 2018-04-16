@@ -20,7 +20,8 @@
   "license": "MIT",
   "gypfile": true,
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.0"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
   },
   "repository": {
     "type": "git",

@@ -1,29 +1,29 @@
 /*
-  Its is under the MIT license, to encourage reuse by cut-and-paste.
+Its is under the MIT license, to encourage reuse by cut-and-paste.
 
-  The original files are hosted here: https://github.com/sago007/PlatformFolders
+The original files are hosted here: https://github.com/sago007/PlatformFolders
 
-  Copyright (c) 2015-2016 Poul Sander
+Copyright (c) 2015-2016 Poul Sander
 
-  Permission is hereby granted, free of charge, to any person
-  obtaining a copy of this software and associated documentation files
-  (the "Software"), to deal in the Software without restriction,
-  including without limitation the rights to use, copy, modify, merge,
-  publish, distribute, sublicense, and/or sell copies of the Software,
-  and to permit persons to whom the Software is furnished to do so,
-  subject to the following conditions:
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation files
+(the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-  BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-  ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
 
 #include "platform_folders.h"
@@ -39,27 +39,45 @@
 
 #define strtok_r strtok_s
 
-static std::string GetWindowsFolder(_GUID folderId, const char* errorMsg) {
-	wchar_t* szPath = NULL;
-	if ( !SUCCEEDED(SHGetKnownFolderPath(folderId, 0, NULL, &szPath)))
+static std::string win32_utf16_to_utf8(const wchar_t* wstr)
+{
+	std::string res;
+	// If the 6th parameter is 0 then WideCharToMultiByte returns the number of bytes needed to store the result.
+	int actualSize = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+	if (actualSize > 0) {
+		//If the converted UTF-8 string could not be in the initial buffer. Allocate one that can hold it.
+		std::vector<char> buffer(actualSize);
+		actualSize = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, &buffer[0], buffer.size(), NULL, NULL);
+		res = buffer.data();
+	}
+	if (actualSize == 0) {
+		// WideCharToMultiByte return 0 for errors.
+		std::string errorMsg = "UTF16 to UTF8 failed with error code: " + GetLastError();
+		throw std::runtime_error(errorMsg.c_str());
+	}
+	return res;
+}
+
+static std::string GetWindowsFolder(int folderId, const char* errorMsg) {
+	wchar_t szPath[MAX_PATH];
+	szPath[0] = 0;
+	if ( !SUCCEEDED( SHGetFolderPathW( NULL, folderId, NULL, 0, szPath ) ) )
 	{
 		throw std::runtime_error(errorMsg);
 	}
-	std::wstring wpath(szPath);
-	CoTaskMemFree(szPath);
-	return std::string(wpath.begin(), wpath.end());
+	return win32_utf16_to_utf8(szPath);
 }
 
 static std::string GetAppData() {
-	return GetWindowsFolder(FOLDERID_RoamingAppData, "RoamingAppData could not be found");
+	return GetWindowsFolder(CSIDL_APPDATA, "RoamingAppData could not be found");
 }
 
 static std::string GetAppDataCommon() {
-	return GetWindowsFolder(FOLDERID_ProgramData, "Common appdata could not be found");
+	return GetWindowsFolder(CSIDL_COMMON_APPDATA, "Common appdata could not be found");
 }
 
 static std::string GetAppDataLocal() {
-	return GetWindowsFolder(FOLDERID_LocalAppData, "LocalAppData could not be found");
+	return GetWindowsFolder(CSIDL_LOCAL_APPDATA, "LocalAppData could not be found");
 }
 #elif defined(__APPLE__)
 #include <CoreServices/CoreServices.h>
@@ -67,12 +85,12 @@ static std::string GetAppDataLocal() {
 static std::string GetMacFolder(OSType folderType, const char* errorMsg) {
 	std::string ret;
 	FSRef ref;
-    char path[PATH_MAX];
-    OSStatus err = FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
+	char path[PATH_MAX];
+	OSStatus err = FSFindFolder( kUserDomain, folderType, kCreateFolder, &ref );
 	if (err != noErr) {
 		throw std::runtime_error(errorMsg);
 	}
-    FSRefMakePath( &ref, (UInt8*)&path, PATH_MAX );
+	FSRefMakePath( &ref, (UInt8*)&path, PATH_MAX );
 	ret = path;
 	return ret;
 }
@@ -89,15 +107,15 @@ static void throwOnRelative(const char* envName, const char* envValue) {
 	if (envValue[0] != '/') {
 		char buffer[200];
 		snprintf(buffer, sizeof(buffer), "Environment \"%s\" does not start with an '/'. XDG specifies that the value must be absolute. The current value is: \"%s\"", envName, envValue);
-		//throw std::runtime_error(buffer);
+		throw std::runtime_error(buffer);
 	}
 }
 
 /**
- * Retrives the effective user's home dir. 
- * If the user is running as root we ignore the HOME environment. It works badly with sudo. 
+ * Retrives the effective user's home dir.
+ * If the user is running as root we ignore the HOME environment. It works badly with sudo.
  * Writing to $HOME as root implies security concerns that a multiplatform program cannot be assumed to handle.
- * @return The home directory. HOME environment is respected for non-root users if it exists. 
+ * @return The home directory. HOME environment is respected for non-root users if it exists.
  */
 static std::string getHome() {
 	std::string res;
@@ -110,11 +128,11 @@ static std::string getHome() {
 	}
 	struct passwd *pw = getpwuid(uid);
 	if (!pw) {
-		//throw std::runtime_error("Unable to get passwd struct.");
+		throw std::runtime_error("Unable to get passwd struct.");
 	}
 	const char* tempRes = pw->pw_dir;
 	if (!tempRes) {
-		//throw std::runtime_error("User has no home directory");
+		throw std::runtime_error("User has no home directory");
 	}
 	res = tempRes;
 	return res;
@@ -242,7 +260,7 @@ static void PlatformFoldersFillData(std::map<std::string, std::string>& folders)
 	folders["XDG_TEMPLATES_DIR"] = "$HOME/.Templates";
 	folders["XDG_VIDEOS_DIR"] = "$HOME/Videos";
 	PlatformFoldersAddFromFile( getConfigHome()+"/user-dirs.dirs", folders);
-	for (std::map<std::string, std::string>::iterator itr = folders.begin() ; itr != folders.end() ; itr ++ ) {
+	for (std::map<std::string, std::string>::iterator itr = folders.begin() ; itr != folders.end() ; ++itr ) {
 		std::string& value = itr->second;
 		if (value.compare(0, 5, "$HOME") == 0) {
 			value = getHome() + value.substr(5, std::string::npos);
@@ -256,12 +274,12 @@ PlatformFolders::PlatformFolders() {
 #elif defined(__APPLE__)
 #else
 	this->data = new PlatformFolders::PlatformFoldersData();
-	//try {
+	try {
 		PlatformFoldersFillData(data->folders);
-	//} catch (...) {
-	//	delete this->data;
-	//	throw;
-	//}
+	} catch (...) {
+		delete this->data;
+		throw;
+	}
 #endif
 }
 
@@ -275,7 +293,7 @@ PlatformFolders::~PlatformFolders() {
 
 std::string PlatformFolders::getDocumentsFolder() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Documents, "Failed to find My Documents folder");
+	return GetWindowsFolder(CSIDL_PERSONAL, "Failed to find My Documents folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kDocumentsFolderType, "Failed to find Documents Folder");
 #else
@@ -285,7 +303,7 @@ std::string PlatformFolders::getDocumentsFolder() const {
 
 std::string PlatformFolders::getDesktopFolder() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Desktop, "Failed to find Desktop folder");
+	return GetWindowsFolder(CSIDL_DESKTOP, "Failed to find Desktop folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kDesktopFolderType, "Failed to find Desktop folder");
 #else
@@ -295,7 +313,7 @@ std::string PlatformFolders::getDesktopFolder() const {
 
 std::string PlatformFolders::getPicturesFolder() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Pictures, "Failed to find My Pictures folder");
+	return GetWindowsFolder(CSIDL_MYPICTURES, "Failed to find My Pictures folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kPictureDocumentsFolderType, "Failed to find Picture folder");
 #else
@@ -305,7 +323,8 @@ std::string PlatformFolders::getPicturesFolder() const {
 
 std::string PlatformFolders::getDownloadFolder1() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Downloads, "Failed to find My Downloads (Desktop) folder");
+	//Pre Vista. Files was downloaded to the desktop
+	return GetWindowsFolder(CSIDL_DESKTOP, "Failed to find My Downloads (Desktop) folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kDownloadsFolderType, "Failed to find Download folder");
 #else
@@ -315,7 +334,7 @@ std::string PlatformFolders::getDownloadFolder1() const {
 
 std::string PlatformFolders::getMusicFolder() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Music, "Failed to find My Music folder");
+	return GetWindowsFolder(CSIDL_MYMUSIC, "Failed to find My Music folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kMusicDocumentsFolderType, "Failed to find Music folder");
 #else
@@ -325,7 +344,7 @@ std::string PlatformFolders::getMusicFolder() const {
 
 std::string PlatformFolders::getVideoFolder() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Videos, "Failed to find My Video folder");
+	return GetWindowsFolder(CSIDL_MYVIDEO, "Failed to find My Video folder");
 #elif defined(__APPLE__)
 	return GetMacFolder(kMovieDocumentsFolderType, "Failed to find Movie folder");
 #else
@@ -335,7 +354,9 @@ std::string PlatformFolders::getVideoFolder() const {
 
 std::string PlatformFolders::getSaveGamesFolder1() const {
 #if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_SavedGames, "Failed to find SavedGames folder");
+	//A dedicated Save Games folder was not introduced until Vista. For XP and older save games are most often saved in a normal folder named "My Games".
+	//Data that should not be user accessible should be placed under GetDataHome() instead
+	return GetWindowsFolder(CSIDL_PERSONAL, "Failed to find My Documents folder")+"\\My Games";
 #elif defined(__APPLE__)
 	return GetMacFolder(kApplicationSupportFolderType, "Failed to find Application Support Folder");
 #else
@@ -343,15 +364,6 @@ std::string PlatformFolders::getSaveGamesFolder1() const {
 #endif
 }
 
-std::string PlatformFolders::getHomeFolder() const {
-#if defined(_WIN32)
-	return GetWindowsFolder(FOLDERID_Profile, "Failed to find Home folder");
-#elif defined(__APPLE__)
-	return GetMacFolder(kCurrentUserFolderType, "Failed to find Home Folder");
-#else
-	return getHome();
-#endif
-}
 
 
 }  //namespace sago
