@@ -24,7 +24,12 @@
               ],
               "GCC_ENABLE_CPP_RTTI": "YES",
               "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
-              "libraries": ["-framework CoreServices"]
+              "libraries": ["-framework CoreServices"],
+              "link_settings": {
+                 "libraries": [
+                   "$(SDKROOT)/System/Library/Frameworks/CoreServices.framework"
+                 ],
+               },
             }
           }
         ]
