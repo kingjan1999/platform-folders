@@ -23,7 +23,8 @@
                 "-framework CoreServices"
               ],
               "GCC_ENABLE_CPP_RTTI": "YES",
-              "GCC_ENABLE_CPP_EXCEPTIONS": "YES"
+              "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
+              "libraries": ["-framework CoreServices"]
             }
           }
         ]
