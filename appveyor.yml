@@ -1,0 +1,34 @@
+os: Visual Studio 2015
+
+environment:
+  matrix:
+    - nodejs_version: 4
+    - nodejs_version: 6
+    - nodejs_version: 8
+    - nodejs_version: 9
+
+platform:
+  - x64
+  - x86
+
+shallow_clone: true
+
+install:
+  - ps: Install-Product node $env:nodejs_version $env:Platform
+  - ps: Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+  - npm config get
+  - IF "%nodejs_version:~0,1%" EQU "4" npm install node-gyp@3.x
+  - node --version
+  - npm --version
+  - node -e "console.log(process.arch);"
+  - IF /I "%PLATFORM%" == "x64" set PATH=C:\Python27-x64;%PATH%
+  - IF /I "%PLATFORM%" == "x86" SET PATH=C:\python27;%PATH%
+  - IF /I "%PLATFORM%" == "x64" CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+  - IF /I "%PLATFORM%" == "x86" CALL "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
+  - npm install
+  - IF "%nodejs_version:~0,1%" GEQ "6" npm install npm@2 -g
+  - npm test
+
+build: off
+test: off
+deploy: off
