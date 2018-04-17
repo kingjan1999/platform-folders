@@ -370,7 +370,7 @@ namespace sago {
 
     std::string PlatformFolders::getHomeFolder() const {
 #if defined(_WIN32)
-        return GetWindowsFolder(FOLDERID_Profile, "Failed to find Home folder");
+        return GetWindowsFolder(CSIDL_PROFILE, "Failed to find Home folder");
 #elif defined(__APPLE__)
         return GetMacFolder(kCurrentUserFolderType, "Failed to find Home Folder");
 #else
