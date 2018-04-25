@@ -1,12 +1,13 @@
 {
   "name": "platform-folders",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
   "main": "dist/index.js",
   "scripts": {
     "test": "mocha --require babel-register",
     "install": "node-gyp rebuild",
-    "build": "babel *.js -d dist/"
+    "build": "babel *.js -d dist/",
+    "prepublishOnky": "babel *.js -d dist/"
   },
   "keywords": [
     "platform",
@@ -22,6 +23,7 @@
   "gypfile": true,
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-relative-paths": "^0.1.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",

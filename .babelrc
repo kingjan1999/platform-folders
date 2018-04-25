@@ -1,4 +1,5 @@
 {
-    "presets": ["env"]
+    "presets": ["env"],
+    "plugins": ["transform-relative-paths"]
 }
 
