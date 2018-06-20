@@ -50,6 +50,7 @@ export default function getPath(name) {
         case "home":
             return getHomeFolder();
         case "appData":
+        case "appdata":            
             return getDataHome();
         case "userData":
             return getConfigHome();
