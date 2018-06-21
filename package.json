@@ -7,7 +7,7 @@
     "test": "mocha --require babel-register",
     "install": "node-gyp rebuild",
     "build": "babel *.js -d dist/",
-    "prepublishOnky": "babel *.js -d dist/"
+    "prepublishOnly": "babel *.js -d dist/"
   },
   "keywords": [
     "platform",
