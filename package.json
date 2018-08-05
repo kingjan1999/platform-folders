@@ -1,6 +1,6 @@
 {
   "name": "platform-folders",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
   "main": "dist/index.js",
   "scripts": {
