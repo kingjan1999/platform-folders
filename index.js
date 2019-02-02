@@ -1,5 +1,5 @@
 'use strict';
-const folders = require('./build/Release/platform-folders');
+const folders = require('bindings')('platformFolders');
 
 export function getHomeFolder() {
     return folders.getHomeFolder();

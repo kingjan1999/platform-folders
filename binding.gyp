@@ -1,8 +1,7 @@
 {
   'targets': [
     {
-      'target_name': 'platform-folders',
-      'defines': [ 'V8_DEPRECATION_WARNINGS=1' ],
+      'target_name': 'platformFolders',
       'sources': [ 'binding.cc', 'platform_folders.cpp' ],
       "cflags!" : [
         "-fno-exceptions"

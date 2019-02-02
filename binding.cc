@@ -1,200 +1,180 @@
-#include <node.h>
-#include <v8.h>
-#include "platform_folders.h"
+#define NAPI_VERSION 3
+#define NAPI_EXPERIMENTAL
 
-using namespace v8;
+#include <node_api.h>
+#include "platform_folders.h"
 
 static const char *const UnknownFailure = "Unknown failure occurred.";
 
-void getCache(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
-    try {
-        std::string cacheDir = sago::getCacheDir();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, cacheDir.c_str()));
+napi_value toNapiValue(napi_env env, const std::string &result) {
+    napi_value configHomeNapi;
+    napi_status status;
+    status = napi_create_string_utf8(env, result.c_str(), result.length(), &configHomeNapi);
+    if (status != napi_ok) {
+        napi_throw_error(env, nullptr, "Unable to create return value");
     }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+
+    return configHomeNapi;
+}
+
+void HandleException(napi_env env) {
+    try {
+        throw;
+    } catch (const std::exception &re) {
+        napi_throw_error(env, nullptr, re.what());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        napi_throw_error(env, nullptr, UnknownFailure);
     }
 }
 
-void getConfig(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getCache(napi_env env, napi_callback_info info) {
     try {
-        std::string dir = sago::getConfigHome();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, sago::getCacheDir());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getData(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+
+napi_value getConfig(napi_env env, napi_callback_info info) {
     try {
-        std::string dir = sago::getDataHome();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, sago::getConfigHome());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getDesktop(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
-    sago::PlatformFolders p;
+
+napi_value getData(napi_env env, napi_callback_info info) {
     try {
-        std::string dir = p.getDesktopFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, sago::getDataHome());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getDocuments(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getDesktop(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getDocumentsFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getDesktopFolder());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
-
+    return nullptr;
 }
 
-void getDownloads(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getDocuments(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getDownloadFolder1();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getDocumentsFolder());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
-
+    return nullptr;
 }
 
-void getMusic(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getDownloads(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getMusicFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getDownloadFolder1());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-
-void getPictures(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getMusic(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getPicturesFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getMusicFolder());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getSaveGames(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+
+napi_value getPictures(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getSaveGamesFolder1();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getPicturesFolder());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getVideos(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getSaveGames(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getVideoFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getSaveGamesFolder1());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-void getHome(const FunctionCallbackInfo <Value> &args) {
-    Isolate *isolate = args.GetIsolate();
-    HandleScope scope(isolate);
+napi_value getVideos(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
-        std::string dir = p.getHomeFolder();
-        args.GetReturnValue().Set(String::NewFromUtf8(isolate, dir.c_str()));
-    }
-    catch (const std::exception &re) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, re.what()));
+        return toNapiValue(env, p.getVideoFolder());
     }
     catch (...) {
-        *isolate->ThrowException(String::NewFromUtf8(isolate, UnknownFailure));
+        HandleException(env);
     }
+    return nullptr;
 }
 
-
-void init(Local <Object> exports) {
-    NODE_SET_METHOD(exports, "getCacheDir", getCache);
-    NODE_SET_METHOD(exports, "getConfigHome", getConfig);
-    NODE_SET_METHOD(exports, "getDataHome", getData);
-    NODE_SET_METHOD(exports, "getDesktopFolder", getDesktop);
-    NODE_SET_METHOD(exports, "getDocumentsFolder", getDocuments);
-    NODE_SET_METHOD(exports, "getDownloadsFolder", getDownloads);
-    NODE_SET_METHOD(exports, "getMusicFolder", getMusic);
-    NODE_SET_METHOD(exports, "getPicturesFolder", getPictures);
-    NODE_SET_METHOD(exports, "getSaveGamesFolder", getSaveGames);
-    NODE_SET_METHOD(exports, "getVideosFolder", getVideos);
-    NODE_SET_METHOD(exports, "getHomeFolder", getHome);
+napi_value getHome(napi_env env, napi_callback_info info) {
+    try {
+        sago::PlatformFolders p;
+        return toNapiValue(env, p.getHomeFolder());
+    }
+    catch (...) {
+        HandleException(env);
+    }
+    return nullptr;
 }
 
-NODE_MODULE(binding, init);
+#define EXPORT_NAPI(name_here, name_there) ({\
+    status = napi_create_function(env, nullptr, 0, name_here, nullptr, &fn); \
+    if (status != napi_ok) return nullptr; \
+    status = napi_set_named_property(env, exports, name_there, fn); \
+    if (status != napi_ok) return nullptr; \
+  })
+
+
+napi_value Init(napi_env env, napi_value exports) {
+    napi_status status;
+    napi_value fn;
+
+    EXPORT_NAPI(getCache, "getCacheDir");
+    EXPORT_NAPI(getConfig, "getConfigHome");
+    EXPORT_NAPI(getData, "getDataHome");
+    EXPORT_NAPI(getDesktop, "getDesktopFolder");
+    EXPORT_NAPI(getDocuments, "getDocumentsFolder");
+    EXPORT_NAPI(getDownloads, "getDownloadsFolder");
+    EXPORT_NAPI(getMusic, "getMusicFolder");
+    EXPORT_NAPI(getPictures, "getPicturesFolder");
+    EXPORT_NAPI(getSaveGames, "getSaveGamesFolder");
+    EXPORT_NAPI(getVideos, "getVideosFolder");
+    EXPORT_NAPI(getHome, "getHomeFolder");
+
+
+    return exports;
+}
+
+NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)
