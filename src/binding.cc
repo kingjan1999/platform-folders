@@ -149,12 +149,12 @@ napi_value getHome(napi_env env, napi_callback_info info) {
     return nullptr;
 }
 
-#define EXPORT_NAPI(name_here, name_there) ({\
+#define EXPORT_NAPI(name_here, name_there) {\
     status = napi_create_function(env, nullptr, 0, name_here, nullptr, &fn); \
     if (status != napi_ok) return nullptr; \
     status = napi_set_named_property(env, exports, name_there, fn); \
     if (status != napi_ok) return nullptr; \
-  })
+  }
 
 
 napi_value Init(napi_env env, napi_value exports) {
