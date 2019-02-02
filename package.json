@@ -1,6 +1,6 @@
 {
   "name": "platform-folders",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -37,5 +37,6 @@
   },
   "dependencies": {
     "bindings": "^1.4.0"
-  }
+  },
+  "files": ["src", "binding.gyp", "README.md", "LICENSE"]
 }
