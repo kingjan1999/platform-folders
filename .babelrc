@@ -1,5 +1,8 @@
 {
-    "presets": ["env"],
-    "plugins": ["transform-relative-paths"]
+    "presets": [
+        "@babel/preset-env"
+    ],
+    "plugins": [
+        "transform-relative-paths"
+    ]
 }
-
