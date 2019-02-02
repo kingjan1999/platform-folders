@@ -38,5 +38,8 @@
   "dependencies": {
     "bindings": "^1.4.0"
   },
-  "files": ["src", "binding.gyp", "README.md", "LICENSE"]
+  "files": ["src", "binding.gyp", "README.md", "LICENSE"],
+  "engines": {
+    "node": ">=8"
+  }
 }
