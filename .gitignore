@@ -292,3 +292,6 @@ __pycache__/
 dist/*
 
 cmake-build-debug
+
+src/*.js
+src/*.d.ts
