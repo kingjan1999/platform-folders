@@ -1,56 +1,60 @@
 'use strict';
-const folders = require('bindings')('platformFolders');
-
-export function getHomeFolder() {
+Object.defineProperty(exports, "__esModule", { value: true });
+var folders = require('bindings')('platformFolders');
+function getHomeFolder() {
     return folders.getHomeFolder();
 }
-
-export function getCacheFolder() {
+exports.getHomeFolder = getHomeFolder;
+function getCacheFolder() {
     return folders.getCacheDir();
 }
-
-export function getConfigHome() {
+exports.getCacheFolder = getCacheFolder;
+function getConfigHome() {
     return folders.getConfigHome();
 }
-
-export function getDataHome() {
+exports.getConfigHome = getConfigHome;
+function getDataHome() {
     return folders.getDataHome();
 }
-
-export function getDesktopFolder() {
+exports.getDataHome = getDataHome;
+function getDesktopFolder() {
     return folders.getDesktopFolder();
 }
-
-export function getDocumentsFolder() {
+exports.getDesktopFolder = getDesktopFolder;
+function getDocumentsFolder() {
     return folders.getDocumentsFolder();
 }
-
-export function getDownloadsFolder() {
+exports.getDocumentsFolder = getDocumentsFolder;
+function getDownloadsFolder() {
     return folders.getDownloadsFolder();
 }
-
-export function getPicturesFolder() {
+exports.getDownloadsFolder = getDownloadsFolder;
+function getPicturesFolder() {
     return folders.getPicturesFolder();
 }
-
-export function getVideosFolder() {
+exports.getPicturesFolder = getPicturesFolder;
+function getVideosFolder() {
     return folders.getVideosFolder();
 }
-
-export function getMusicFolder() {
+exports.getVideosFolder = getVideosFolder;
+function getMusicFolder() {
     return folders.getMusicFolder();
 }
-
-export function getSaveGamesFolder() {
+exports.getMusicFolder = getMusicFolder;
+function getSaveGamesFolder() {
     return folders.getSaveGamesFolder();
 }
-
-export default function getPath(name) {
+exports.getSaveGamesFolder = getSaveGamesFolder;
+/**
+ * Returns path for type or undefined if name is invalid
+ * @param name folder type (see README)
+ */
+function getPath(name) {
     switch (name) {
         case "home":
             return getHomeFolder();
         case "appData":
-        case "appdata":            
+        case "appdata":
             return getDataHome();
         case "userData":
             return getConfigHome();
@@ -72,6 +76,6 @@ export default function getPath(name) {
             return getSaveGamesFolder();
         default:
             return undefined;
-
     }
 }
+exports.default = getPath;

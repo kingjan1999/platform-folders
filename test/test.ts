@@ -2,7 +2,7 @@ const os = require('os');
 
 import {assert} from "chai";
 
-import * as folders from "../index.js";
+import * as folders from "../src/index";
 
 describe("Test existence of folders", function () {
     it('home folder', () => {

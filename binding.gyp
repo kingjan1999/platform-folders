@@ -2,7 +2,7 @@
   'targets': [
     {
       'target_name': 'platformFolders',
-      'sources': [ 'binding.cc', 'platform_folders.cpp' ],
+      'sources': [ 'src/binding.cc', 'src/platform_folders.cpp' ],
       "cflags!" : [
         "-fno-exceptions"
       ],
