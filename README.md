@@ -33,6 +33,7 @@ console.log(getDownloadsFolder());
 |-----------| -------------------|
 |`home`     |getHomeFolder()     |
 |`appData`  |getDataHome()       |
+|`appdata`  |getDataHome()       |
 |`userData` |getConfigHome()     |
 |`desktop`  |getDesktopFolder()  |
 |`documents`|getDocumentsFolder()|
