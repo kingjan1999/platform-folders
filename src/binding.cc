@@ -1,7 +1,7 @@
 #define NAPI_VERSION 3
 #define NAPI_EXPERIMENTAL
 
-#include <node_api.h>
+#include <node/node_api.h>
 #include "platform_folders.h"
 
 static const char *const UnknownFailure = "Unknown failure occurred.";
@@ -16,6 +16,24 @@ napi_value toNapiValue(napi_env env, const std::string &result) {
 
     return configHomeNapi;
 }
+
+napi_value toNapiValue(napi_env env, const std::vector<std::string> &result) {
+    napi_status status;
+    napi_value value;
+    status = napi_create_array(env, &value);
+    for (uint32_t i = 0; i < result.size(); i++) {
+        napi_value folderName;
+        napi_create_string_utf8(env, result[i].c_str(), result[i].length(), &folderName);
+        status = napi_set_element(env, value, i, folderName);
+    }
+
+    if (status != napi_ok) {
+        napi_throw_error(env, nullptr, "Unable to create return value");
+    }
+
+    return value;
+}
+
 
 void HandleException(napi_env env) {
     try {
@@ -65,25 +83,25 @@ napi_value getAdditionalDataDirectories(napi_env env, napi_callback_info info) {
         std::vector<std::string> folders;
         sago::appendAdditionalDataDirectories(folders);
 
-        napi_status status;
-        napi_value value;
-        status = napi_create_array(env, &value);
-        for (int i = 0; i < folders.size(); i++) {
-            napi_value folderName;
-            napi_create_string_utf8(env, folders[i].c_str(), folders[i].length(), &folderName);
-            status = napi_set_element(env, value, i, folderName);
-        }
-
-        if (status != napi_ok) {
-            napi_throw_error(env, nullptr, "Unable to create return value");
-        }
-
-        return value;
+        return toNapiValue(env, folders);
     } catch (...) {
         HandleException(env);
     }
     return nullptr;
 }
+
+napi_value getAdditionalConfigDirectories(napi_env env, napi_callback_info info) {
+    try {
+        std::vector<std::string> folders;
+        sago::appendAdditionalConfigDirectories(folders);
+
+        return toNapiValue(env, folders);
+    } catch (...) {
+        HandleException(env);
+    }
+    return nullptr;
+}
+
 
 napi_value getDesktop(napi_env env, napi_callback_info info) {
     try {
@@ -191,6 +209,7 @@ napi_value Init(napi_env env, napi_value exports) {
     EXPORT_NAPI(getConfig, "getConfigHome");
     EXPORT_NAPI(getData, "getDataHome");
     EXPORT_NAPI(getAdditionalDataDirectories, "getDataFolders");
+    EXPORT_NAPI(getAdditionalConfigDirectories, "getConfigFolders");
     EXPORT_NAPI(getDesktop, "getDesktopFolder");
     EXPORT_NAPI(getDocuments, "getDocumentsFolder");
     EXPORT_NAPI(getDownloads, "getDownloadsFolder");

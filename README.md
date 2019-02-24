@@ -22,6 +22,8 @@ Following names are supported:
 - `videos` Videos directory (e.g. `/home/<Username>/Videos`, `c:\Users\<Username>\Videos`, `/Users/<Username>/Videos`)
 - `cache` Cache directory (e.g. `/home/<Username>/.cache`, `c:\Users\<Username>\AppData\Local`, `/Users/<Username>/Library/Caches`)
 - `savegames` Directory for savegames (e.g. `/home/<Username>/.local/share`, `c:\Users\<Username>\SavedGames`, `/Users/<Username>/Library/Application Support`)
+- `dataFolders` Additional global data folders (e.g. `C:\ProgramData`, `/usr/share/`) - returns an array which is empty for OS X
+- `configFolders` Additional global data folders (e.g. `C:\ProgramData`, `/etc/xdg/`) - returns an array which is empty for OS X
 
 Alternatively you can use the named exports:
 ```javascript
@@ -29,17 +31,17 @@ import {getDownloadsFolder} from 'platform-folders';
 console.log(getDownloadsFolder());
 ```
 
-| Key       | Method             |
-|-----------| -------------------|
-|`home`     |getHomeFolder()     |
-|`appData`  |getDataHome()       |
-|`appdata`  |getDataHome()       |
-|`userData` |getConfigHome()     |
-|`desktop`  |getDesktopFolder()  |
-|`documents`|getDocumentsFolder()|
-|`downloads`|getDownloadsFolder()|
-|`music`    |getMusicFolder()    |
-|`pictures` |getPicturesFolder() |
-|`videos`   |getVideosFolder()   |
-|`cache`    |getCacheFolder()    |
-|`savegames`|getSaveGamesFolder()|
+| Key             | Method                  |
+|-----------------| ------------------------|
+|`home`           |getHomeFolder()          |
+|`appData`        |getDataHome()            |
+|`appdata`        |getDataHome()            |
+|`userData`       |getConfigHome()          |
+|`desktop`        |getDesktopFolder()       |
+|`documents`      |getDocumentsFolder()     |
+|`downloads`      |getDownloadsFolder()     |
+|`music`          |getMusicFolder()         |
+|`pictures`       |getPicturesFolder()      |
+|`videos`         |getVideosFolder()        |
+|`cache`          |getCacheFolder()         |
+|`savegames`      |getSaveGamesFolder()     |

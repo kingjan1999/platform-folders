@@ -17,8 +17,12 @@ export function getDataHome(): string {
     return folders.getDataHome();
 }
 
-export function getDataFolders() : string {
+export function getDataFolders() : string[] {
     return folders.getDataFolders();
+}
+
+export function getConfigFolders() : string[] {
+    return folders.getConfigFolders();
 }
 
 export function getDesktopFolder(): string {
@@ -60,8 +64,6 @@ export default function getPath(name: string): string|undefined {
         case "appData":
         case "appdata":            
             return getDataHome();
-        case "appDataCommon":
-            return getDataFolders();
         case "userData":
             return getConfigHome();
         case "desktop":

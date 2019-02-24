@@ -26,6 +26,10 @@ describe("Test existence of folders", function () {
         assert.isOk(folders.getDataFolders());
     });
 
+    it('config folders', () => {
+        assert.isOk(folders.getConfigFolders());
+    });
+
     it('documents folder', () => {
         assert.isOk(folders.getDocumentsFolder());
     });
