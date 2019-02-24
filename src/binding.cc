@@ -1,7 +1,7 @@
 #define NAPI_VERSION 3
 #define NAPI_EXPERIMENTAL
 
-#include <node/node_api.h>
+#include <node_api.h>
 #include "platform_folders.h"
 
 static const char *const UnknownFailure = "Unknown failure occurred.";
