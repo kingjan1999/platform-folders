@@ -22,8 +22,6 @@ Following names are supported:
 - `videos` Videos directory (e.g. `/home/<Username>/Videos`, `c:\Users\<Username>\Videos`, `/Users/<Username>/Videos`)
 - `cache` Cache directory (e.g. `/home/<Username>/.cache`, `c:\Users\<Username>\AppData\Local`, `/Users/<Username>/Library/Caches`)
 - `savegames` Directory for savegames (e.g. `/home/<Username>/.local/share`, `c:\Users\<Username>\SavedGames`, `/Users/<Username>/Library/Application Support`)
-- `dataFolders` Additional global data folders (e.g. `C:\ProgramData`, `/usr/share/`) - returns an array which is empty for OS X
-- `configFolders` Additional global data folders (e.g. `C:\ProgramData`, `/etc/xdg/`) - returns an array which is empty for OS X
 
 Alternatively you can use the named exports:
 ```javascript
@@ -45,3 +43,10 @@ console.log(getDownloadsFolder());
 |`videos`         |getVideosFolder()        |
 |`cache`          |getCacheFolder()         |
 |`savegames`      |getSaveGamesFolder()     |
+
+Following paths can not be used with `getPath` (as they return arrays), but can be called using the exported function:
+
+- `getDataFolders` Additional global data folders (e.g. `C:\ProgramData`, `/usr/share/`)
+- `getConfigFolders` Additional global data folders (e.g. `C:\ProgramData`, `/etc/xdg/`)
+
+These functions are not supported for OS X (they will return an empty array).
