@@ -18,8 +18,12 @@ describe("Test existence of folders", function () {
         assert.isOk(folders.getConfigHome());
     });
 
-    it('data folder', () => {
+    it('data home folder', () => {
         assert.isOk(folders.getDataHome());
+    });
+
+    it('data folders', () => {
+        assert.isOk(folders.getDataFolders());
     });
 
     it('documents folder', () => {

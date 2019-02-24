@@ -60,6 +60,31 @@ napi_value getData(napi_env env, napi_callback_info info) {
     return nullptr;
 }
 
+napi_value getAdditionalDataDirectories(napi_env env, napi_callback_info info) {
+    try {
+        std::vector<std::string> folders;
+        sago::appendAdditionalDataDirectories(folders);
+
+        napi_status status;
+        napi_value value;
+        status = napi_create_array(env, &value);
+        for (int i = 0; i < folders.size(); i++) {
+            napi_value folderName;
+            napi_create_string_utf8(env, folders[i].c_str(), folders[i].length(), &folderName);
+            status = napi_set_element(env, value, i, folderName);
+        }
+
+        if (status != napi_ok) {
+            napi_throw_error(env, nullptr, "Unable to create return value");
+        }
+
+        return value;
+    } catch (...) {
+        HandleException(env);
+    }
+    return nullptr;
+}
+
 napi_value getDesktop(napi_env env, napi_callback_info info) {
     try {
         sago::PlatformFolders p;
@@ -149,6 +174,7 @@ napi_value getHome(napi_env env, napi_callback_info info) {
     return nullptr;
 }
 
+
 #define EXPORT_NAPI(name_here, name_there) {\
     status = napi_create_function(env, nullptr, 0, name_here, nullptr, &fn); \
     if (status != napi_ok) return nullptr; \
@@ -164,6 +190,7 @@ napi_value Init(napi_env env, napi_value exports) {
     EXPORT_NAPI(getCache, "getCacheDir");
     EXPORT_NAPI(getConfig, "getConfigHome");
     EXPORT_NAPI(getData, "getDataHome");
+    EXPORT_NAPI(getAdditionalDataDirectories, "getDataFolders");
     EXPORT_NAPI(getDesktop, "getDesktopFolder");
     EXPORT_NAPI(getDocuments, "getDocumentsFolder");
     EXPORT_NAPI(getDownloads, "getDownloadsFolder");
@@ -177,4 +204,5 @@ napi_value Init(napi_env env, napi_value exports) {
     return exports;
 }
 
-NAPI_MODULE(NODE_GYP_MODULE_NAME, Init)
+NAPI_MODULE(NODE_GYP_MODULE_NAME, Init
+)

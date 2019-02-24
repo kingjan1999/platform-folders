@@ -3,9 +3,9 @@ project(node_platform_folders)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(. /usr/include/node/)
+include_directories(.)
 
 add_executable(node_platform_folders
-        binding.cc
-        platform_folders.cpp
-        platform_folders.h)
+        src/binding.cc
+        src/platform_folders.cpp
+        src/platform_folders.h)
