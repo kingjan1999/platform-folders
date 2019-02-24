@@ -30,7 +30,6 @@ napi_value toNapiValue(napi_env env, const std::vector<std::string> &result) {
     if (status != napi_ok) {
         napi_throw_error(env, nullptr, "Unable to create return value");
     }
-
     return value;
 }
 
