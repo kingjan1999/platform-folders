@@ -1,5 +1,6 @@
-'use strict';
-const folders = require('bindings')('platformFolders');
+"use strict";
+// tslint:disable-next-line
+const folders = require("bindings")("platformFolders");
 
 export function getHomeFolder(): string {
     return folders.getHomeFolder();
@@ -17,11 +18,11 @@ export function getDataHome(): string {
     return folders.getDataHome();
 }
 
-export function getDataFolders() : string[] {
+export function getDataFolders(): string[] {
     return folders.getDataFolders();
 }
 
-export function getConfigFolders() : string[] {
+export function getConfigFolders(): string[] {
     return folders.getConfigFolders();
 }
 
@@ -62,7 +63,7 @@ export default function getPath(name: string): string|undefined {
         case "home":
             return getHomeFolder();
         case "appData":
-        case "appdata":            
+        case "appdata":
             return getDataHome();
         case "userData":
             return getConfigHome();
