@@ -58,7 +58,10 @@ export function getSaveGamesFolder(): string {
  * Returns path for type or undefined if name is invalid
  * @param name folder type (see README)
  */
-export default function getPath(name: string): string|undefined {
+type Folder = 'home' | 'appData' | 'appdata' | 'userData' | 'desktop' | 'documents' |
+              'downloads' | 'music' | 'pictures' | 'videos' | 'cache' | 'savegames';
+
+export default function getPath(name: Folder): string|undefined {
     switch (name) {
         case "home":
             return getHomeFolder();
