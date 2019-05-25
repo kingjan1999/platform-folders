@@ -1,60 +1,62 @@
-const os = require('os');
+// tslint:disable-next-line: no-var-requires
+const os = require("os");
 
 import {assert} from "chai";
 
 import * as folders from "../src/index";
 
-describe("Test existence of folders", function () {
-    it('home folder', () => {
+describe("Test existence of folders", () => {
+    it("home folder", () => {
         assert.isOk(folders.getHomeFolder());
         assert.equal(folders.getHomeFolder(), os.homedir());
     });
 
-    it('cache folder', () => {
+    it("cache folder", () => {
         assert.isOk(folders.getCacheFolder());
     });
 
-    it('config folder', () => {
+    it("config folder", () => {
         assert.isOk(folders.getConfigHome());
     });
 
-    it('data home folder', () => {
+    it("data home folder", () => {
         assert.isOk(folders.getDataHome());
     });
 
-    it('data folders', () => {
+    it("data folders", () => {
         assert.isOk(folders.getDataFolders());
     });
 
-    it('config folders', () => {
+    it("config folders", () => {
         assert.isOk(folders.getConfigFolders());
     });
 
-    it('documents folder', () => {
+    it("documents folder", () => {
         assert.isOk(folders.getDocumentsFolder());
     });
 
-    it('downloads folder', () => {
+    it("downloads folder", () => {
         assert.isOk(folders.getDownloadsFolder());
     });
 
-    it('pictures folder', () => {
+    it("pictures folder", () => {
         assert.isOk(folders.getPicturesFolder());
     });
 
-    it('videos folder', () => {
+    it("videos folder", () => {
         assert.isOk(folders.getVideosFolder());
     });
 
-    it('music folder', () => {
+    it("music folder", () => {
         assert.isOk(folders.getMusicFolder());
     });
 
-    it('save games folders', () => {
+    it("save games folders", () => {
         assert.isOk(folders.getSaveGamesFolder());
     });
 
-    it('undefined for undefined folder', () => {
+    it("undefined for undefined folder", () => {
+        // @ts-ignore
         assert.isNotOk(folders.default("unknown"));
     });
 });

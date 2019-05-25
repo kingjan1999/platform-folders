@@ -9,7 +9,7 @@
     "install": "node-gyp rebuild",
     "build": "tsc",
     "prepublishOnly": "tsc",
-    "lint": "tslint -c ./tslint.json ./src/**/*.ts"
+    "lint": "tslint -c ./tslint.json src/**/*[^.d$].ts ./test/**/*.ts "
   },
   "keywords": [
     "platform",
@@ -25,20 +25,20 @@
   "gypfile": true,
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^11.9.5",
-    "chai": "^4.1.2",
-    "mocha": "^6.0.1",
-    "ts-node": "^8.0.2",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
-    "typescript": "^3.3.1"
+    "typescript": "^3.4.5"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kingjan1999/platform-folders.git"
   },
   "dependencies": {
-    "bindings": "^1.4.0"
+    "bindings": "^1.5.0"
   },
   "files": [
     "src",
