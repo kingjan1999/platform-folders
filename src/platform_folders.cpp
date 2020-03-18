@@ -447,9 +447,7 @@ std::string getSaveGamesFolder2() {
 
 std::string PlatformFolders::getHomeFolder() const {
 #if defined(_WIN32)
-    return GetWindowsFolder(CSIDL_PROFILE, "Failed to find Home folder");
-#elif defined(__APPLE__)
-    return GetMacFolder(kCurrentUserFolderType, "Failed to find Home Folder");
+    return GetKnownWindowsFolder(CSIDL_PROFILE, "Failed to find Home folder");
 #else
     return getHome();
 #endif
