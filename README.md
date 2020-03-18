@@ -1,5 +1,5 @@
 # platform-folders
-Node.js bindings for [sago007/PlatformFolders](https://github.com/sago007/PlatformFolders) (requires Node.js 8+)
+Node.js bindings for [sago007/PlatformFolders](https://github.com/sago007/PlatformFolders) (requires Node.js 10+)
 
 This library is inspired by Electrons [app.getPath](https://github.com/electron/electron/blob/master/docs/api/app.md#appgetpathname) used for getting so called "special directories".
 These directories, like "Documents", "Downloads" and "AppData" are platform dependent. This Node Native Addon uses a C++ libary (linked above) to resolve the paths on Windows, "Linux" and Mac OS X.
