@@ -447,7 +447,7 @@ std::string getSaveGamesFolder2() {
 
 std::string PlatformFolders::getHomeFolder() const {
 #if defined(_WIN32)
-    return GetKnownWindowsFolder(CSIDL_PROFILE, "Failed to find Home folder");
+    return GetKnownWindowsFolder(FOLDERID_Profile, "Failed to find Home folder");
 #else
     return getHome();
 #endif
