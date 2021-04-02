@@ -1,5 +1,5 @@
 "use strict";
-// tslint:disable-next-line
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const folders = require("bindings")("platformFolders");
 
 export function getHomeFolder(): string {

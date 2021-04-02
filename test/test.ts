@@ -1,4 +1,4 @@
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const os = require("os");
 
 import {assert} from "chai";
@@ -56,6 +56,7 @@ describe("Test existence of folders", () => {
     });
 
     it("undefined for undefined folder", () => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         assert.isNotOk(folders.default("unknown"));
     });

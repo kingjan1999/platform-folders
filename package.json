@@ -9,7 +9,7 @@
     "install": "node-gyp rebuild",
     "build": "tsc",
     "prepublishOnly": "tsc",
-    "lint": "tslint -c ./tslint.json src/**/*[^.d$].ts ./test/**/*.ts "
+    "lint": "eslint -c ./.eslintrc.js src/**/*[^.d$].ts ./test/**/*.ts "
   },
   "keywords": [
     "platform",
@@ -31,8 +31,6 @@
     "@typescript-eslint/parser": "^4.20.0",
     "chai": "^4.3.4",
     "eslint": "^7.23.0",
-    "eslint-plugin-jsdoc": "^32.3.0",
-    "eslint-plugin-prefer-arrow": "^1.2.3",
     "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
