@@ -54,6 +54,16 @@ napi_value getCache(napi_env env, napi_callback_info info) {
     return nullptr;
 }
 
+napi_value getState(napi_env env, napi_callback_info info) {
+    try {
+        return toNapiValue(env, sago::getStateDir());
+    }
+    catch (...) {
+        HandleException(env);
+    }
+    return nullptr;
+}
+
 
 napi_value getConfig(napi_env env, napi_callback_info info) {
     try {
@@ -204,6 +214,7 @@ napi_value Init(napi_env env, napi_value exports) {
     napi_value fn;
 
     EXPORT_NAPI(getCache, "getCacheDir");
+    EXPORT_NAPI(getState, "getStateDir");
     EXPORT_NAPI(getConfig, "getConfigHome");
     EXPORT_NAPI(getData, "getDataHome");
     EXPORT_NAPI(getAdditionalDataDirectories, "getDataFolders");

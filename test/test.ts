@@ -15,6 +15,10 @@ describe("Test existence of folders", () => {
         assert.isOk(folders.getCacheFolder());
     });
 
+    it("state folder", () => {
+        assert.isOk(folders.getStateFolder());
+    });
+
     it("config folder", () => {
         assert.isOk(folders.getConfigHome());
     });

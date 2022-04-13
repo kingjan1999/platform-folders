@@ -1,6 +1,6 @@
 {
   "name": "platform-folders",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Module to get platform dependent folders (e.g. documents, downloads, config)",
   "main": "src/index.js",
   "types": "src/index.d.ts",

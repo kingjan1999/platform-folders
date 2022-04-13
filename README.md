@@ -21,6 +21,7 @@ Following names are supported:
 - `pictures` Pictures directory (e.g. `/home/<Username>/Bilder` (on a German system), `c:\Users\<Username>\Pictures`, `/Users/<Username>/Pictures`)
 - `videos` Videos directory (e.g. `/home/<Username>/Videos`, `c:\Users\<Username>\Videos`, `/Users/<Username>/Videos`)
 - `cache` Cache directory (e.g. `/home/<Username>/.cache`, `c:\Users\<Username>\AppData\Local`, `/Users/<Username>/Library/Caches`)
+- `state` State directory (e.g. `/home/<Username>/.local/state`, `c:\Users\<Username>\AppData\Local`, `/Users/<Username>/Library/Application Support`)
 - `savegames` Directory for savegames (e.g. `/home/<Username>/.local/share`, `c:\Users\<Username>\SavedGames`, `/Users/<Username>/Library/Application Support`)
 
 Alternatively you can use the named exports:
@@ -29,20 +30,21 @@ import {getDownloadsFolder} from 'platform-folders';
 console.log(getDownloadsFolder());
 ```
 
-| Key             | Method                  |
-|-----------------| ------------------------|
-|`home`           |getHomeFolder()          |
-|`appData`        |getDataHome()            |
-|`appdata`        |getDataHome()            |
-|`userData`       |getConfigHome()          |
-|`desktop`        |getDesktopFolder()       |
-|`documents`      |getDocumentsFolder()     |
-|`downloads`      |getDownloadsFolder()     |
-|`music`          |getMusicFolder()         |
-|`pictures`       |getPicturesFolder()      |
-|`videos`         |getVideosFolder()        |
-|`cache`          |getCacheFolder()         |
-|`savegames`      |getSaveGamesFolder()     |
+| Key         | Method               |
+|-------------|----------------------|
+| `home`      | getHomeFolder()      |
+| `appData`   | getDataHome()        |
+| `appdata`   | getDataHome()        |
+| `userData`  | getConfigHome()      |
+| `desktop`   | getDesktopFolder()   |
+| `documents` | getDocumentsFolder() |
+| `downloads` | getDownloadsFolder() |
+| `music`     | getMusicFolder()     |
+| `pictures`  | getPicturesFolder()  |
+| `videos`    | getVideosFolder()    |
+| `cache`     | getCacheFolder()     |
+| `state`     | getStateFolder()     |
+| `savegames` | getSaveGamesFolder() |
 
 Following paths can not be used with `getPath` (as they return arrays), but can be called using the exported function:
 

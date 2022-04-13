@@ -10,6 +10,10 @@ export function getCacheFolder(): string {
     return folders.getCacheDir();
 }
 
+export function getStateFolder(): string {
+    return folders.getStateDir();
+}
+
 export function getConfigHome(): string {
     return folders.getConfigHome();
 }
@@ -59,7 +63,7 @@ export function getSaveGamesFolder(): string {
  * @param name folder type (see README)
  */
 type Folder = "home" | "appData" | "appdata" | "userData" | "desktop" | "documents" |
-              "downloads" | "music" | "pictures" | "videos" | "cache" | "savegames";
+              "downloads" | "music" | "pictures" | "videos" | "cache" | "savegames" | "state";
 
 export default function getPath(name: Folder): string|undefined {
     switch (name) {
@@ -84,6 +88,8 @@ export default function getPath(name: Folder): string|undefined {
             return getVideosFolder();
         case "cache":
             return getCacheFolder();
+        case "state":
+            return getStateFolder();
         case "savegames":
             return getSaveGamesFolder();
         default:
