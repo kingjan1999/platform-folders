@@ -45,6 +45,9 @@ void appendExtraFoldersTokenizer(const char* envName, const char* envValue, std:
 #ifdef _WIN32
 std::string win32_utf16_to_utf8(const wchar_t* wstr);
 #endif
+#ifndef _WIN32
+std::string getHome();
+#endif
 }
 #endif  //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -76,14 +79,14 @@ std::string getConfigHome();
  * Retrives the base folder for storing cache files.
  * You must add the program name yourself like this:
  * @code{.cpp}
- * string data_home = getCacheDir()+"/My Program Name/Cache";
+ * string data_home = getCacheDir()+"/My Program Name/cache/";
  * @endcode
  * On Windows this defaults to %APPDATALOCAL%
  * On Linux this defaults to ~/.cache but can be configured by the user
- * @return The base folder for storing data that do not need to be backed up.
+ * Note that it is recommended to append "cache" after the program name to prevent conflicting with "StateDir" under Windows
+ * @return The base folder for storing data that do not need to be backed up and might be deleted.
  */
 std::string getCacheDir();
-
 
 /**
  * Retrives the base folder used for state files.
@@ -276,9 +279,10 @@ public:
      * @return The main user folder
      */
     std::string getHomeFolder() const;
+
 private:
-	PlatformFolders(const PlatformFolders&);
-	PlatformFolders& operator=(const PlatformFolders&);
+	PlatformFolders(const PlatformFolders&) = delete;
+	PlatformFolders& operator=(const PlatformFolders&) = delete;
 #if !defined(_WIN32) && !defined(__APPLE__)
 	struct PlatformFoldersData;
 	PlatformFoldersData* data;
